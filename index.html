@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Vote plumbing test</title>
+<style>
+  body { font: 18px/1.5 system-ui, sans-serif; max-width: 32rem; margin: 2rem auto; padding: 0 1rem; }
+  button { font: inherit; padding: .7rem 1.4rem; }
+  #out { margin-top: 1rem; white-space: pre-wrap; }
+</style>
+</head>
+<body>
+<h1>Vote plumbing test</h1>
+<p>Count stored in Google Sheets/Apps Script: <strong id="count">…</strong></p>
+<button id="add">Add one</button>
+<div id="out"></div>
+<script>
+  // The Apps Script /exec URL comes from the address: ...?api=https://script.google.com/macros/s/.../exec
+  const API = new URLSearchParams(location.search).get('api');
+  const out = document.getElementById('out');
+  const show = (m) => { out.textContent = m; };
+  async function call(method) {
+    const opts = { method, credentials: 'omit', redirect: 'follow' };
+    if (method === 'POST') { opts.body = '{}'; opts.headers = { 'Content-Type': 'text/plain;charset=utf-8' }; }
+    const r = await fetch(API, opts);
+    return r.json();
+  }
+  async function refresh() {
+    try { document.getElementById('count').textContent = (await call('GET')).count; show('Read OK.'); }
+    catch (e) { show('Read FAILED: ' + e); }
+  }
+  document.getElementById('add').addEventListener('click', async () => {
+    try { document.getElementById('count').textContent = (await call('POST')).count; show('Write OK.'); }
+    catch (e) { show('Write FAILED: ' + e); }
+  });
+  if (!API) show('Add ?api=<your Apps Script /exec URL> to the address.'); else refresh();
+</script>
+</body>
+</html>
