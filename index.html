@@ -17,9 +17,12 @@
   --green-soft: #e7f4e6;
   --btn: #2b7d2a; --btn-ink: #ffffff;     /* primary button */
   --term: #252525; --term-ink: #ffffff;   /* the black terminal panel and brand bar */
-  --a: #252525; --a-ink: #ffffff;         /* diagnosis A */
-  --b: #2b7d2a; --b-ink: #ffffff;         /* diagnosis B */
-  --anthropic: #252525; --openai: #4bb649; --openai-ink: #252525;
+  /* A and B: two equal-strength, meaning-free colours (no green: it reads as "correct"). */
+  --a: #1f5f8b; --a-ink: #ffffff;         /* diagnosis A, blue */
+  --b: #6b4f9e; --b-ink: #ffffff;         /* diagnosis B, purple */
+  /* Provider colours, shown only after voting: Claude orange, ChatGPT teal. */
+  --anthropic: #d97757; --openai: #10a37f; --bar-ink: #1b1b1b;
+  --anthropic-text: #b0532f; --openai-text: #0b7c61;
   --code: #eef3ed;
   --font-display: "JetBrains Mono", ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
   --font-body: "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
@@ -32,8 +35,9 @@
     --green: #4bb649; --green-ink: #6fcf6c; --green-soft: #1d2a1c;
     --btn: #4bb649; --btn-ink: #161716;
     --term: #0d0e0d; --term-ink: #ffffff;
-    --a: #eef1ee; --a-ink: #161716; --b: #4bb649; --b-ink: #161716;
-    --anthropic: #d9ded9; --openai: #4bb649; --openai-ink: #161716;
+    --a: #7fb4dc; --a-ink: #161716; --b: #b9a2e3; --b-ink: #161716;
+    --anthropic: #d97757; --openai: #10a37f; --bar-ink: #121212;
+    --anthropic-text: #eb9a7c; --openai-text: #3cc79f;
     --code: #2a2c2a;
     color-scheme: dark;
   }
@@ -102,16 +106,16 @@ details[open] summary { margin-bottom: .4rem; }
 
 /* Result + totals */
 .verdict { font-family: var(--font-display); font-size: clamp(1.8rem, 6vw, 2.8rem); line-height: 1.1; }
-.who-anthropic { color: var(--ink); text-decoration: underline; text-decoration-color: var(--ink); text-underline-offset: .15em; }
-.who-openai { color: var(--green-ink); text-decoration: underline; text-decoration-color: var(--green); text-underline-offset: .15em; }
+.who-anthropic { color: var(--anthropic-text); }
+.who-openai { color: var(--openai-text); }
 .recap { display: flex; flex-direction: column; gap: .6rem; }
 .recap div { background: var(--surface); border: 1px solid var(--line); border-radius: 6px; padding: .75rem .9rem; display: grid; gap: .2rem; }
 .recap b { font-weight: 600; }
 .bar { display: flex; height: 2.2rem; border-radius: 6px; overflow: hidden; background: var(--line); font: 600 .85rem/2.2rem var(--font-mono); }
 .bar span { padding: 0 .6rem; white-space: nowrap; min-width: 0; overflow: hidden; }
-.bar .an { background: var(--anthropic); color: var(--bg); } .bar .oa { background: var(--openai); color: var(--openai-ink); text-align: right; }
+.bar .an { background: var(--anthropic); color: var(--bar-ink); } .bar .oa { background: var(--openai); color: var(--bar-ink); text-align: right; }
 .legend { display: flex; justify-content: space-between; font-size: .9rem; font-weight: 600; }
-.legend .an { color: var(--ink); } .legend .oa { color: var(--green-ink); }
+.legend .an { color: var(--anthropic-text); } .legend .oa { color: var(--openai-text); }
 .totals { display: flex; flex-direction: column; gap: 1.2rem; }
 .tot-row { display: flex; flex-direction: column; gap: .35rem; }
 .num { font-variant-numeric: tabular-nums; }
